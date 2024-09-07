@@ -10,11 +10,11 @@ return {
         config = function(_, opts)
             require("nvim-treesitter.configs").setup(opts)
         end,
-        dependencies = {
-            "nvim-treesitter/nvim-treesitter-context"
-        }
+        -- dependencies = {
+        --     "nvim-treesitter/nvim-treesitter-context"
+        -- }
     },
-    { "catppuccin/nvim",       name = "catppuccin", priority = 1000 },
+    { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
     {
         'VonHeikemen/lsp-zero.nvim',
         lazy = false,
@@ -47,6 +47,17 @@ return {
             }
         end,
     },
+    -- {
+    --     "Hoffs/omnisharp-extended-lsp.nvim",
+    --     ft = "cs",
+    --     keys = {
+    --         {
+    --             "gd",
+    --             function() require("omnisharp_extended").lsp_definition() end,
+    --             desc = "Go to definition cs"
+    --         },
+    --     },
+    -- },
     {
         'nvim-telescope/telescope.nvim',
         tag = '0.1.2',
@@ -212,7 +223,6 @@ return {
             { "<leader>ge", "<cmd>GoIfErr<cr>", desc = "Go if err" },
         },
     },
-    { 'wakatime/vim-wakatime', lazy = false },
     {
         'numToStr/Comment.nvim',
         opts = {
@@ -230,5 +240,12 @@ return {
             vim.g['vimtex_view_method'] = 'zathura'
             vim.g['vimtex_compiler_method'] = 'latexmk'
         end
+    },
+    {
+        "seblj/roslyn.nvim",
+        ft = "cs",
+        opts = {
+            -- your configuration comes here; leave empty for default settings
+        }
     }
 }

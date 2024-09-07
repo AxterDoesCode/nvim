@@ -5,7 +5,7 @@ lsp.preset("recommended")
 lsp.ensure_installed({
     'tsserver',
     'rust_analyzer',
-    'gopls',
+    -- 'gopls',
 })
 
 -- Fix Undefined global 'vim'
@@ -40,8 +40,7 @@ lsp.set_preferences({
 
 lsp.on_attach(function(client, bufnr)
     local opts = { buffer = bufnr, remap = false }
-
-    vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
+    -- vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
     vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
     vim.keymap.set("n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end, opts)
     vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float() end, opts)
@@ -70,13 +69,35 @@ lspconfig.gopls.setup {
     },
 }
 
-lspconfig.omnisharp.setup {
-    cmd = { "dotnet", vim.fn.stdpath "data" .. "/mason/packages/omnisharp/libexec/OmniSharp.dll" },
-    enable_import_completion = true,
-    organize_imports_on_format = true,
-    enable_roslyn_analyzers = true,
-    root_dir = vim.loop.cwd, -- current working directory
-}
+-- lsp.configure('omnisharp', {
+--   handlers = {
+--     ["textDocument/definition"] = require('omnisharp_extended').handler,
+--   }
+-- })
+
+-- lspconfig.omnisharp.setup {
+--     cmd = { "dotnet", vim.fn.stdpath "data" .. "/mason/packages/omnisharp/libexec/OmniSharp.dll" },
+--     enable_import_completion = true,
+--     organize_imports_on_format = true,
+--     enable_roslyn_analyzers = true,
+--     root_dir = vim.loop.cwd, -- current working directory
+--     RoslynExtensionsOptions = {
+--         -- Enables support for roslyn analyzers, code fixes and rulesets.
+--         EnableAnalyzersSupport = nil,
+--         -- Enables support for showing unimported types and unimported extension
+--         -- methods in completion lists. When committed, the appropriate using
+--         -- directive will be added at the top of the current file. This option can
+--         -- have a negative impact on initial completion responsiveness,
+--         -- particularly for the first few completion sessions after opening a
+--         -- solution.
+--         EnableImportCompletion = nil,
+--         -- Only run analyzers against open files when 'enableRoslynAnalyzers' is
+--         -- true
+--         AnalyzeOpenDocumentsOnly = nil,
+--         EnableDecompilationSupport = true,
+--     },
+-- }
+
 lsp.setup()
 
 vim.diagnostic.config({
