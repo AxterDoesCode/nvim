@@ -247,5 +247,24 @@ return {
         opts = {
             -- your configuration comes here; leave empty for default settings
         }
-    }
+    },
+        {
+        "vim-denops/denops.vim",
+        dependencies = {
+            "uga-rosa/scorpeon.vim",
+            config = function()
+            vim.g.scorpeon_highlight = {
+                enable = {"bsv"},
+                disable = function()
+                return vim.fn.getfsize(vim.fn.expand('%')) > 1 * 1024 * 1024
+                end
+            }
+            end,
+        },
+        ft = "bsv",
+    },
+    {
+        "mtikekar/vim-bsv",
+        ft = "bsv"
+    },
 }
