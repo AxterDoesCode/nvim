@@ -23,14 +23,14 @@ return {
             -- LSP Support
             { 'neovim/nvim-lspconfig' }, -- Required
             {                            -- Optional
-                'williamboman/mason.nvim',
+                'mason-org/mason.nvim',
                 cmd = { "Mason", "MasonInstall", "MasonInstallAll", "MasonUninstall", "MasonUninstallAll", "MasonLog" },
                 build = ":MasonUpdate",
                 opts = function()
                     return require "plugins.configs.mason"
                 end,
             },
-            { 'williamboman/mason-lspconfig.nvim' }, -- Optional
+            { 'mason-org/mason-lspconfig.nvim' }, -- Optional
 
             -- Autocompletion
             { 'hrsh7th/nvim-cmp' },     -- Required
