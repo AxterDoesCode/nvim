@@ -68,6 +68,12 @@ lspconfig.gopls.setup {
     },
 }
 
+lspconfig.clangd.setup {
+    init_options = {
+        fallbackFlags = {'--std=c++20'}
+  },
+}
+
 -- lsp.configure('omnisharp', {
 --   handlers = {
 --     ["textDocument/definition"] = require('omnisharp_extended').handler,
