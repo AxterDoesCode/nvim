@@ -70,8 +70,12 @@ lspconfig.gopls.setup {
 
 lspconfig.clangd.setup {
     init_options = {
-        fallbackFlags = {'--std=c++20'}
-  },
+        fallbackFlags = {'--std=c++23'}
+    },
+    cmd = {
+        "clangd",
+        "--fallback-style=webkit"
+    }
 }
 
 -- lsp.configure('omnisharp', {
