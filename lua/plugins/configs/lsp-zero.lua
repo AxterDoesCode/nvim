@@ -78,6 +78,29 @@ lspconfig.clangd.setup {
     }
 }
 
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function(args)
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    client.server_capabilities.semanticTokensProvider = nil
+  end,
+});
+
+lspconfig.arduino_language_server.setup {
+    filetypes = {"arduino"},
+    root_dir = lspconfig.util.root_pattern("*.ino"),
+    cmd = {
+        "arduino-language-server",
+    },
+    capabilities = {
+        textDocument = {
+            semanticTokens = vim.NIL,
+        },
+        workspace = {
+            semanticTokens = vim.NIL,
+        },
+    },
+}
+
 -- lsp.configure('omnisharp', {
 --   handlers = {
 --     ["textDocument/definition"] = require('omnisharp_extended').handler,
