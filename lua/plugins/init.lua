@@ -233,14 +233,6 @@ return {
             require('Comment').setup()
         end
     },
-    -- {
-    --     "lervag/vimtex",
-    --     lazy = false,
-    --     init = function()
-    --         vim.g['vimtex_view_method'] = 'zathura'
-    --         vim.g['vimtex_compiler_method'] = 'latexmk'
-    --     end
-    -- },
     {
         "seblj/roslyn.nvim",
         ft = "cs",
@@ -298,5 +290,9 @@ return {
     -- VimTeX configuration goes here, e.g.
     vim.g.vimtex_view_method = "zathura"
   end
+},
+{
+  "tidalcycles/vim-tidal",
+  lazy = false,
 },
 }
