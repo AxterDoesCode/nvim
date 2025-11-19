@@ -1,5 +1,5 @@
 local options = {
-    ensure_installed = {"go","javascript", "typescript", "c", "lua", "rust" },
+    -- ensure_installed = {"go","javascript", "typescript", "c", "lua", "rust" },
     highlight = {
         enable = true,
         use_languagetree = true,

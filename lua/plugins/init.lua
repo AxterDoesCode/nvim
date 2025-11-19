@@ -1,26 +1,11 @@
 return {
-    {
-        "nvim-treesitter/nvim-treesitter",
-        lazy = false,
-        cmd = { "TSInstall", "TSBufEnable", "TSBufDisable", "TSModuleInfo" },
-        build = ":TSUpdate",
-        opts = function()
-            return require "plugins.configs.treesitter"
-        end,
-        config = function(_, opts)
-            require("nvim-treesitter.configs").setup(opts)
-        end,
-        -- dependencies = {
-        --     "nvim-treesitter/nvim-treesitter-context"
-        -- }
-    },
     { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
     {
-        'VonHeikemen/lsp-zero.nvim',
+        'nvim-treesitter/nvim-treesitter',
         lazy = false,
-        branch = 'v2.x',
-        dependencies = {
-            -- LSP Support
+        branch = 'main',
+        build = ':TSUpdate'
+    },
             { 'neovim/nvim-lspconfig' }, -- Required
             {                            -- Optional
                 'mason-org/mason.nvim',
@@ -36,28 +21,6 @@ return {
             { 'hrsh7th/nvim-cmp' },     -- Required
             { 'hrsh7th/cmp-nvim-lsp' }, -- Required
             { 'L3MON4D3/LuaSnip' },     -- Required
-        },
-        config = function()
-            require("plugins.configs.lsp-zero")
-            require 'lspconfig'.sqlls.setup {
-                filetypes = { 'sql' },
-                root_dir = function(_)
-                    return vim.loop.cwd()
-                end,
-            }
-        end,
-    },
-    -- {
-    --     "Hoffs/omnisharp-extended-lsp.nvim",
-    --     ft = "cs",
-    --     keys = {
-    --         {
-    --             "gd",
-    --             function() require("omnisharp_extended").lsp_definition() end,
-    --             desc = "Go to definition cs"
-    --         },
-    --     },
-    -- },
     {
         'nvim-telescope/telescope.nvim',
         tag = '0.1.2',
@@ -240,59 +203,54 @@ return {
             -- your configuration comes here; leave empty for default settings
         }
     },
-        {
+    {
         "vim-denops/denops.vim",
         dependencies = {
             "uga-rosa/scorpeon.vim",
             config = function()
-            vim.g.scorpeon_highlight = {
-                enable = {"bsv"},
-                disable = function()
-                return vim.fn.getfsize(vim.fn.expand('%')) > 1 * 1024 * 1024
-                end
-            }
+                vim.g.scorpeon_highlight = {
+                    enable = { "bsv" },
+                    disable = function()
+                        return vim.fn.getfsize(vim.fn.expand('%')) > 1 * 1024 * 1024
+                    end
+                }
             end,
         },
         ft = "bsv",
     },
     {
-        "mtikekar/vim-bsv",
-        ft = "bsv"
+        "scalameta/nvim-metals",
+        ft = { "scala", "sbt", "java" },
+        opts = function()
+            local metals_config = require("metals").bare_config()
+            metals_config.on_attach = function(client, bufnr)
+                -- your on_attach function
+            end
+
+            return metals_config
+        end,
+        config = function(self, metals_config)
+            local nvim_metals_group = vim.api.nvim_create_augroup("nvim-metals", { clear = true })
+            vim.api.nvim_create_autocmd("FileType", {
+                pattern = self.ft,
+                callback = function()
+                    require("metals").initialize_or_attach(metals_config)
+                end,
+                group = nvim_metals_group,
+            })
+        end
     },
-
     {
-  "scalameta/nvim-metals",
-  ft = { "scala", "sbt", "java" },
-  opts = function()
-    local metals_config = require("metals").bare_config()
-    metals_config.on_attach = function(client, bufnr)
-      -- your on_attach function
-    end
-
-    return metals_config
-  end,
-  config = function(self, metals_config)
-    local nvim_metals_group = vim.api.nvim_create_augroup("nvim-metals", { clear = true })
-    vim.api.nvim_create_autocmd("FileType", {
-      pattern = self.ft,
-      callback = function()
-        require("metals").initialize_or_attach(metals_config)
-      end,
-      group = nvim_metals_group,
-    })
-  end
-},
-{
-  "lervag/vimtex",
-  lazy = false,     -- we don't want to lazy load VimTeX
-  -- tag = "v2.15", -- uncomment to pin to a specific release
-  init = function()
-    -- VimTeX configuration goes here, e.g.
-    vim.g.vimtex_view_method = "zathura"
-  end
-},
-{
-  "tidalcycles/vim-tidal",
-  lazy = false,
-},
+        "lervag/vimtex",
+        lazy = false, -- we don't want to lazy load VimTeX
+        -- tag = "v2.15", -- uncomment to pin to a specific release
+        init = function()
+            -- VimTeX configuration goes here, e.g.
+            vim.g.vimtex_view_method = "zathura"
+        end
+    },
+    {
+        "tidalcycles/vim-tidal",
+        lazy = false,
+    },
 }
