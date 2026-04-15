@@ -348,8 +348,36 @@ return {
 			vim.g.vimtex_view_method = "zathura"
 		end,
 	},
+	-- {
+	-- 	"tidalcycles/vim-tidal",
+	-- 	lazy = false,
+	-- },
 	{
-		"tidalcycles/vim-tidal",
-		lazy = false,
+		"coder/claudecode.nvim",
+		dependencies = { "folke/snacks.nvim" },
+		opts = {
+			terminal_cmd = "/home/axtr/.local/bin/claude", -- Point to local installation
+		},
+		config = true,
+		keys = {
+			{ "<leader>cc", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude terminal" },
+			{ "<leader>cf", "<cmd>ClaudeCodeFocus<cr>", desc = "Focus/toggle Claude terminal" },
+			{
+				"<leader>cs",
+				"<cmd>ClaudeCodeSend<cr>",
+				mode = { "n", "v" },
+				desc = "Send selection to Claude",
+			},
+			{
+				"<leader>ca",
+				function()
+					vim.cmd("ClaudeCodeAdd " .. vim.fn.expand("%:p"))
+				end,
+				desc = "Add current file to Claude context",
+			},
+			{ "<leader>cda", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "Accept Claude diff" },
+			{ "<leader>cdd", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "Deny Claude diff" },
+		},
+        lazy=false
 	},
 }

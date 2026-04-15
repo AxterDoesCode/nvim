@@ -38,3 +38,10 @@ vim.keymap.set("n", "<leader>mr", "<cmd>CellularAutomaton make_it_rain<CR>", { d
 vim.keymap.set("n", "<leader><leader>", function()
     vim.cmd("so")
 end, {desc = "Source changes"})
+
+-- Navigate out of terminal mode
+vim.keymap.set("t", "<C-w>h", function() vim.cmd("stopinsert") vim.cmd("wincmd h") end, { desc = "Terminal: go left" })
+vim.keymap.set("t", "<C-w>j", function() vim.cmd("stopinsert") vim.cmd("wincmd j") end, { desc = "Terminal: go down" })
+vim.keymap.set("t", "<C-w>k", function() vim.cmd("stopinsert") vim.cmd("wincmd k") end, { desc = "Terminal: go up" })
+vim.keymap.set("t", "<C-w>l", function() vim.cmd("stopinsert") vim.cmd("wincmd l") end, { desc = "Terminal: go right" })
+vim.keymap.set("t", "<C-w>w", function() vim.cmd("stopinsert") vim.cmd("wincmd w") end, { desc = "Terminal: go to next window" })
