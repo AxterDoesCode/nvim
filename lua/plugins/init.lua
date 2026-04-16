@@ -120,23 +120,14 @@ return {
 	},
 	{
 		"folke/trouble.nvim",
-		cmd = { "Trouble", "TroubleToggle" },
-		config = function()
-			require("trouble").setup({
-				icons = false,
-				-- your configuration comes here
-				-- or leave it empty to use the default settings
-				-- refer to the configuration section below
-			})
-		end,
+		cmd = { "Trouble" },
+		opts = {},
 		keys = {
-			{
-				"<leader>xq",
-				"<cmd>TroubleToggle quickfix<cr>",
-				desc = "Toggle trouble qf",
-				silent = true,
-				noremap = true,
-			},
+			{ "<leader>xd", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", desc = "Buffer diagnostics" },
+			{ "<leader>xw", "<cmd>Trouble diagnostics toggle<cr>", desc = "Workspace diagnostics" },
+			{ "<leader>xs", "<cmd>Trouble symbols toggle<cr>", desc = "Document symbols" },
+			{ "<leader>xl", "<cmd>Trouble lsp toggle<cr>", desc = "LSP definitions / references" },
+			{ "<leader>xq", "<cmd>Trouble qflist toggle<cr>", desc = "Quickfix list" },
 		},
 	},
 	{
