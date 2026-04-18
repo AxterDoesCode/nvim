@@ -1,6 +1,5 @@
 require("axtr.remaps")
 require("axtr.set")
-require("axtr.filetypes")
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
@@ -30,3 +29,7 @@ local lazy_settings = {
   },
 }
 require("lazy").setup("plugins", lazy_settings)
+
+-- filetypes.lua needs cmp_nvim_lsp on the rtp to build capabilities, so
+-- it must run after lazy has loaded the completion deps.
+require("axtr.filetypes")

@@ -25,6 +25,36 @@ vim.keymap.set("i", "<C-c>", "<Esc>")
 vim.keymap.set("n", "Q", "<nop>")
 vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, { desc = "Format according to Lsp" })
 
+vim.api.nvim_create_autocmd("LspAttach", {
+    callback = function(args)
+        local bufnr = args.buf
+        local map = function(mode, lhs, rhs, desc)
+            vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc })
+        end
+        map("n", "gd", vim.lsp.buf.definition, "LSP: go to definition")
+        map("n", "gD", vim.lsp.buf.declaration, "LSP: go to declaration")
+        map("n", "gi", vim.lsp.buf.implementation, "LSP: go to implementation")
+        map("n", "gr", vim.lsp.buf.references, "LSP: references")
+        map("n", "K", vim.lsp.buf.hover, "LSP: hover")
+        map("n", "<leader>rn", vim.lsp.buf.rename, "LSP: rename")
+        map("n", "<leader>ca", vim.lsp.buf.code_action, "LSP: code action")
+        map("n", "<leader>ds", function()
+            require("telescope.builtin").lsp_document_symbols()
+        end, "LSP: document symbols")
+        map("n", "<leader>ws", function()
+            require("telescope.builtin").lsp_dynamic_workspace_symbols()
+        end, "LSP: workspace symbols")
+        map("n", "<leader>e", vim.diagnostic.open_float, "Diagnostics: float")
+
+        local client = vim.lsp.get_client_by_id(args.data.client_id)
+        if client and client:supports_method("textDocument/foldingRange") then
+            vim.wo[0][0].foldmethod = "expr"
+            vim.wo[0][0].foldexpr = "v:lua.vim.lsp.foldexpr()"
+            vim.wo[0][0].foldlevel = 99
+        end
+    end,
+})
+
 vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
 vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
 vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
